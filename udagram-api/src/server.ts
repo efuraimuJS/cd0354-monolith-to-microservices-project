@@ -24,16 +24,21 @@ import {V0_FEED_MODELS, V0_USER_MODELS} from './controllers/v0/model.index';
   // We set the CORS origin to * so that we don't need to
   // worry about the complexities of CORS this lesson. It's
   // something that will be covered in the next course.
-  app.use(cors({
-    allowedHeaders: [
-      'Origin', 'X-Requested-With',
-      'Content-Type', 'Accept',
-      'X-Access-Token', 'Authorization',
-    ],
-    methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
-    preflightContinue: true,
-    origin: '*',
-  }));
+  // app.use(cors({
+  //   allowedHeaders: [
+  //     'Origin', 'X-Requested-With',
+  //     'Content-Type', 'Accept',
+  //     'X-Access-Token', 'Authorization',
+  //   ],
+  //   methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
+  //   preflightContinue: true,
+  //   origin: '*',
+  // }));
+  app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+    next();
+  });
 
   app.use('/api/v0/', IndexRouter);
 
@@ -45,7 +50,7 @@ import {V0_FEED_MODELS, V0_USER_MODELS} from './controllers/v0/model.index';
 
   // Start the Server
   app.listen( port, () => {
-    console.log( `server running ${config.url}` );
+    console.log( `server running http://localhost:${port}` );
     console.log( `press CTRL+C to stop server` );
   } );
 })();
